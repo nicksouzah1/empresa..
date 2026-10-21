@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ titulo }} - Sistema de Gestão</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+</head>
+<body data-tipo="{{ tipo }}">
+    <header class="topbar">
+        <div>
+            <strong>Sistema de Gestão</strong>
+            <span class="topbar-subtitle">{{ titulo }}</span>
+        </div>
+        <a class="btn secondary" href="/sistema">Voltar ao início</a>
+    </header>
+    <main class="container">
+        <section class="card">
+            <div class="card-header">
+                <div>
+                    <h1>{{ titulo }}</h1>
+                    <p>Cadastre, edite e remova registros.</p>
+                </div>
+                <button id="novoCadastro" class="btn primary" type="button">Novo cadastro</button>
+            </div>
+
+            <form id="cadastroForm" class="form hidden">
+                <input id="registroId" type="hidden">
+                <div class="form-grid">
+                    {% for campo, rotulo in campos.items() %}
+                    <div>
+                        <label for="{{ campo }}">{{ rotulo }}</label>
+                        {% if campo == "empresa_id" %}
+                        <select id="{{ campo }}" required>
+                            <option value="">Selecione uma empresa</option>
+                        </select>
+                        {% else %}
+                        <input id="{{ campo }}" type="{{ 'email' if campo == 'email' else 'text' }}"
+                               {% if campo == "nome" %}required{% endif %}>
+                        {% endif %}
+                    </div>
+                    {% endfor %}
+                </div>
+                <div class="actions">
+                    <button class="btn primary" type="submit">Salvar</button>
+                    <button id="cancelarCadastro" class="btn secondary" type="button">Cancelar</button>
+                </div>
+                <p id="mensagemCadastro" class="mensagem" role="status"></p>
+            </form>
+
+            <p id="mensagemLista" class="mensagem" role="status"></p>
+            <div class="table-wrapper">
+                <table>
+                    <thead><tr id="cabecalhoTabela"></tr></thead>
+                    <tbody id="listaCadastros"></tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+    <script src="/static/js/cadastro.js"></script>
+</body>
+</html>
